@@ -8,7 +8,7 @@ let router_map = {
         {
             path:'/my_students',
             path_name:'我的学生',
-            component:Exercise,
+            component:Students,
         },
         {
             path:'/paper',
@@ -18,7 +18,7 @@ let router_map = {
         {
             path:'/my_exercises',
             path_name:'试题库',
-            component:Students,
+            component:Exercise,
         }
     ]
 }
