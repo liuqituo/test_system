@@ -3,7 +3,7 @@
 import React,{useState,useEffect} from 'react';
 
 export default () => {
-    const [title ,_]= useState('试卷');
+    const [title ,_]= useState('试卷哈哈');
     return (
         <div>
             <div>
