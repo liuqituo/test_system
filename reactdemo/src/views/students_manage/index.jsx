@@ -1,4 +1,5 @@
 // students_manage
+import './index.css';
 import React,{useState,useEffect} from 'react';
 // import {api_map,ApiFun} from '../../https';
 import { Table, Input, Button, Space,Tag } from 'antd';
@@ -41,8 +42,11 @@ export default () => {
     const onSearch =  (value) => {
         setSearchSeate(value);
     }
-    const getPaper = () => {
-        console.log()
+    const getPaper = (name) => {
+        console.log(name)
+    }
+    const changeInfo = (name) => {
+        console.log(name)
     }
     // useEffect(() => {
     //   ApiFun(api_map.getStudentsList).then((data) => {
@@ -52,7 +56,8 @@ export default () => {
     // },[])
     return (
         <div>
-            <Space direction="vertical">
+            <Space align={'center'}>
+                <Button>上传学生名单</Button>
                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             </Space>
            <Table dataSource={student_list}>
@@ -76,11 +81,12 @@ export default () => {
             <Column
             title="Action"
             key="action"
+            width={'200px'}
             render={(text, record) => (
-                <Space size="middle">
-                <a>修改信息</a>
-                {/* <a>错题库</a> */}
-                <a>生成试卷</a>
+                <Space align={'start'}>
+                    <a onClick={(_) => changeInfo(record)}>修改信息</a>
+                    {/* <a>错题库</a> */}
+                    <a onClick={(_) => getPaper(record)}>生成试卷</a>
                 </Space>
             )}
             />
