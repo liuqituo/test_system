@@ -1,12 +1,15 @@
 const express = require('express')
-const router = express()
 const dbData=require('./db.js');
 
-router.get('/', (req, res, next) => {
-    dbData.selectall('students', function(result){
-        console.log(result, 111111)
-        res.send(result);
-    })
-})
 
-module.exports = router
+
+let routerFns =  {
+    getStudents(req, res, callback) {
+        dbData.getStudents('students', function(result){
+            res.send(result);
+            callback && callback();
+        })
+    }
+}
+
+module.exports = routerFns;
