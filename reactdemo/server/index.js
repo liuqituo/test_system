@@ -3,9 +3,10 @@ const express = require("express");
 const app = express();
 const multer  = require('multer');
 const path = require('path');
+var xlsx = require('node-xlsx');
 routerFns = require('./routers.js');
 
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({// 上传文件使用缓存策略
     destination(req,res,cb){
       cb(null,'upload/');
     },
@@ -32,10 +33,8 @@ app.all("*", function(req, res, next) {
     　routerFns.getStudents(req, res);
  });
  //学生信息Excel上传
- app.post('/addStudentsUpload', upload.any(), (req, res) => {
-    // 　routerFns.addStudentsUpload(req, res);
+ app.post('/addStudentsUpload', upload.any('file'), (req, res) => {
     console.log(req.files[0]);  // 上传的文件信息
-
     var des_file = "./upload/" + req.files[0].originalname;
     fs.readFile( req.files[0].path, function (err, data) {
         fs.writeFile(des_file, data, function (err) {
@@ -46,12 +45,37 @@ app.all("*", function(req, res, next) {
                     message:'File uploaded successfully',
                     filename:req.files[0].originalname
                 };
-                res.end( JSON.stringify( response ) );
+                var obj = xlsx.parse(des_file);//配置excel文件的路径
+                var excelObj=obj[0].data;
+                console.log(excelObj)
+                routerFns.addStudentsUpload(req, res,excelObj);
+                res.end( JSON.stringify( excelObj ) );
             }
         });
     });
  });
 
+
+ //题库图片上传
+//  app.post('/addStudentsUpload', upload.any(), (req, res) => {
+//     // 　routerFns.addStudentsUpload(req, res);
+//     console.log(req.files[0]);  // 上传的文件信息
+
+//     var des_file = "./upload/" + req.files[0].originalname;
+//     fs.readFile( req.files[0].path, function (err, data) {
+//         fs.writeFile(des_file, data, function (err) {
+//             if( err ){
+//                 console.log( err );
+//             }else{
+//                 response = {
+//                     message:'File uploaded successfully',
+//                     filename:req.files[0].originalname
+//                 };
+//                 res.end( JSON.stringify( response ) );
+//             }
+//         });
+//     });
+//  });
 
 
 

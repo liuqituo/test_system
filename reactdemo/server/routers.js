@@ -9,7 +9,13 @@ let routerFns =  {
             res.send(result);
             callback && callback();
         })
-    }
+    },
+    addStudentsUpload(req, res, data,callback) {
+        dbData.addStudents('students', data, function(result){
+            res.send(result);
+            callback && callback();
+        })
+    },
 }
 
 module.exports = routerFns;

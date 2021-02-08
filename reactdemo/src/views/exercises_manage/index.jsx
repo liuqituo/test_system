@@ -3,6 +3,7 @@ import './index.css';
 import React,{useState,useEffect} from 'react';
 // import {api_map,ApiFun} from '../../https';
 import { Table, Input, Button, Space,Tag,Image  } from 'antd';
+import AddForm from './components/add_exercises_form';
 const { Column, ColumnGroup } = Table;
 const { Search } = Input;
 
@@ -145,7 +146,7 @@ export default () => {
     return (
         <div>
             <Space align={'center'}>
-                <Button>上传题库</Button>
+                <AddForm/>
                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             </Space>
            <Table dataSource={student_list}>
