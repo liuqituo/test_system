@@ -18,7 +18,7 @@ export default () => {
         console.log(name)
     }
     const changeInfo = (name) => {
-        console.log(name)
+        ApiGetFun(api_map.deleteStudent,name);
     }
 
     // useEffect(() => {

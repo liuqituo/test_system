@@ -1,7 +1,7 @@
 // students_manage
 import './index.css';
 import React,{useState,useEffect} from 'react';
-// import {api_map,ApiFun} from '../../https';
+import {api_map,ApiGetFun} from '../../https';
 import { Table, Input, Button, Space,Tag,Image  } from 'antd';
 import AddForm from './components/add_exercises_form';
 const { Column, ColumnGroup } = Table;
@@ -9,171 +9,53 @@ const { Search } = Input;
 
 
 export default () => {
-    const [student_list,setStudentList] = useState([]);
+    const [exercise_list,setExerciseList] = useState([]);
     const [search_state,setSearchSeate] = useState('');
-    const init_students_list = [
-        {
-          key: '1',
-          Name: 'John',
-          age: 1,
-          address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-          tags: ['相似三角形'],
-        },
-        {
-          key: '2',
-          Name: 'John',
-          age: 1,
-          address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-          tags: ['相似三角形'],
-        },
-        {
-          key: '3',
-          Name: 'Tom',
-          age: 2,
-          address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-          tags: ['代数'],
-        },
-        {
-            key: '4',
-            Name: 'John',
-            age: 1,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '5',
-            Name: 'John',
-            age: 1,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '6',
-            Name: 'Tom',
-            age: 2,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['代数'],
-          },
-          {
-            key: '7',
-            Name: 'John',
-            age: 1,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '8',
-            Name: 'John',
-            age: 1,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '9',
-            Name: 'Tom',
-            age: 2,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['代数'],
-          },
-          {
-            key: '10',
-            Name: 'John',
-            age: 1,
-            address: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '11',
-            Name: 'John',
-            age: 1,
-            address: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '12',
-            Name: 'Tom',
-            age: 2,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['代数'],
-          },
-          {
-            key: '13',
-            Name: 'John',
-            age: 1,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '14',
-            Name: 'John',
-            age: 1,
-            address: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            tags: ['相似三角形'],
-          },
-          {
-            key: '15',
-            Name: 'Tom',
-            age: 2,
-            address: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-            tags: ['代数'],
-          },
-      ];
-    useEffect(() => {
-        let reset_students_list = init_students_list.filter((item) => {
-            return item.Name.includes(search_state);
-        })
-        setStudentList(reset_students_list);
+      useEffect(() => {
+        ApiGetFun(api_map.getExerciseList).then((data) => {
+            let reset_exercise_list = data.data.filter((item) => {
+                return item.student.includes(search_state);
+            })
+            setExerciseList(reset_exercise_list);
+          })
     },[search_state])
     const onSearch =  (value) => {
         setSearchSeate(value);
     }
-    const getPaper = (name) => {
-        console.log(name)
-    }
     const changeInfo = (name) => {
-        console.log(name)
+      console.log(name)
+      ApiGetFun(api_map.deleteExercise,name).then((data) => {
+      })
     }
-
-    const uploadExercises = () => {
-
-    }
-    // useEffect(() => {
-    //   ApiFun(api_map.getStudentsList).then((data) => {
-    //     setStudentList(data.data);
-    //     console.log(data.data)
-    //   })
-    // },[])
     return (
         <div>
             <Space align={'center'}>
                 <AddForm/>
                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             </Space>
-           <Table dataSource={student_list}>
-            <Column title="学生名称" dataIndex="Name" key="name" />
-            <Column title="题目类型" dataIndex="age" key="age" /> 
-            {/* <Column title="Address" dataIndex="address" key="address" /> */}
+           <Table dataSource={exercise_list}>
+            <Column title="学生名称" dataIndex="student" key="student" />
+            <Column title="题目类型" dataIndex="type" key="type" /> 
+            <Column title="题目难度" dataIndex="rate" key="rate" /> 
             <Column
-            title="知识点"
-            dataIndex="tags"
-            key="tags"
-            render={tags => (
+            title="题目描述"
+            dataIndex="descript"
+            key="descript"
+            render={descript => (
                 <>
-                {tags.map(tag => (
-                    <Tag color="blue" key={tag}>
-                    {tag}
-                    </Tag>
-                ))}
+                <Tag color="blue" key={descript}>
+                    {descript}
+                </Tag>
                 </>
             )}
             />
-            <Column title="题目图片" dataIndex="age" key="age" render=
+            <Column title="题目图片" dataIndex="img" key="img" render=
             {
                 (text, record) => (
                     <Image.PreviewGroup>
                     <Image
                       width={30}
-                      src={record.address}
+                      src={record.img}
                     />
                   </Image.PreviewGroup>
                 )

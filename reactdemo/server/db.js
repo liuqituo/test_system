@@ -32,6 +32,55 @@ let dbData = {
         });
         
     },
+    // 删除学生信息(Excel上传)
+    deleteStudent: function(name, data,callback){
+        mongoose.connect(database_name, (err, db) => {
+            let collection = db.collection(name);
+            console.log(data)
+            collection.deleteOne(data).then(() => {
+                callback && callback('学生删除成功');
+                db.close();
+            });
+        });
+    
+        
+    },
+    //获取学生信息
+    getExerciseList: function(name, callback){
+        mongoose.connect(database_name, (err, db) => {
+            let collection = db.collection(name);
+            collection.find().toArray((err, result) => {
+                if(err){
+                    console.log('error:' + err);
+                    return;
+                }
+                callback && callback(result);
+                db.close();
+            })
+        });
+    },
+    // 添加题库
+    uploadExercise: function(name, data,callback){
+        mongoose.connect(database_name, (err, db) => {
+            let collection = db.collection(name);
+            collection.insertOne(data).then(() => {
+                callback && callback();
+                db.close();
+            })
+        });
+        
+    },
+    // 删除学生信息(Excel上传)
+    deleteExercise: function(name, data,callback){
+        mongoose.connect(database_name, (err, db) => {
+            let collection = db.collection(name);
+            console.log(data)
+            collection.deleteOne(data).then(() => {
+                callback && callback('题目删除成功');
+                db.close();
+            });
+        });
+    }
 }
 
 module.exports = dbData;

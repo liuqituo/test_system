@@ -1,87 +1,52 @@
+import { useContext,useState } from "react";
 import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import React from 'react';
 // import reqwest from 'reqwest';
+import {FormContext} from './form';
 
-class Demo extends React.Component {
-  state = {
-    fileList: [],
-    uploading: false,
+const Demo = () => {
+  const [fileList,setFileList] = useState([]);
+  const [uploading,setLoading] = useState(false);
+  //上下文中的方法
+  const { updateFiles } = useContext(FormContext);
+  const handleUpload = () => {
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    },1000)
+    updateFiles(fileList);
   };
-
-  handleUpload = () => {
-    const { fileList } = this.state;
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append('files[]', file);
-    });
-
-    this.setState({
-      uploading: true,
-    });
-    console.log(fileList)
-
-    // You can use any AJAX library you like
-    // reqwest({
-    //   url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    //   method: 'post',
-    //   processData: false,
-    //   data: formData,
-    //   success: () => {
-    //     this.setState({
-    //       fileList: [],
-    //       uploading: false,
-    //     });
-    //     message.success('upload successfully.');
-    //   },
-    //   error: () => {
-    //     this.setState({
-    //       uploading: false,
-    //     });
-    //     message.error('upload failed.');
-    //   },
-    // });
+  const props = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      setFileList(fileList => {
+        return [...fileList,file];
+      });
+      return false;
+    },
   };
-
-  render() {
-    const { uploading, fileList } = this.state;
-    const props = {
-      onRemove: file => {
-        this.setState(state => {
-          const index = state.fileList.indexOf(file);
-          const newFileList = state.fileList.slice();
-          newFileList.splice(index, 1);
-          return {
-            fileList: newFileList,
-          };
-        });
-      },
-      beforeUpload: file => {
-        this.setState(state => ({
-          fileList: [...state.fileList, file],
-        }));
-        return false;
-      },
-      fileList,
-    };
-
-    return (
-      <>
-        <Upload {...props} multiple={true}>
-          <Button icon={<UploadOutlined />}>Select File</Button>
-        </Upload>
-        <Button
-          type="primary"
-          onClick={this.handleUpload}
-          disabled={fileList.length === 0}
-          loading={uploading}
-          style={{ marginTop: 16 }}
-        >
-          {uploading ? 'Uploading' : 'Start Upload'}
-        </Button>
-      </>
-    );
-  }
+  return (
+    <>
+      <Upload {...props} multiple={true}>
+        <Button icon={<UploadOutlined />}>Select File</Button>
+      </Upload>
+      <Button
+        type="primary"
+        onClick={handleUpload}
+        disabled={fileList.length === 0}
+        loading={uploading}
+        style={{ marginTop: 16 }}
+      >
+        {uploading ? 'Uploading' : 'Start Upload'}
+      </Button>
+    </>
+  );
 }
 
 export default Demo;
