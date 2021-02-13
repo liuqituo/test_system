@@ -47,7 +47,7 @@ app.use('/picture',express.static(__dirname + '/upload'));
                 var obj = xlsx.parse(des_file);//配置excel文件的路径
                 var excelObj=obj[0].data;
                 routerFns.addStudentsUpload(req, res,excelObj);
-                res.end( JSON.stringify( excelObj ) );
+                // res.end( JSON.stringify( excelObj ) );
             }
         });
     });
@@ -76,6 +76,7 @@ app.use('/picture',express.static(__dirname + '/upload'));
                 };
                 params.img = `http://localhost:3001/picture/${req.files[0].originalname}`;
                 params.key = new Date()+Math.random() * 1000 + Math.random() * 1000;
+                params.qid = req.files[0].originalname.split('.')[0];
                 routerFns.uploadExerciseList(req, res,params);
                 res.end( JSON.stringify( response ) );
             }
@@ -89,6 +90,10 @@ app.use('/picture',express.static(__dirname + '/upload'));
  //删除题目
  　app.get('/deleteExercise', (req, res) => {
     　routerFns.deleteExercise(req, res);
+    });
+ //删除全部题目
+ 　app.get('/deleteAllExercise', (req, res) => {
+    　routerFns.deleteAllExercise(req, res);
     });
 
 

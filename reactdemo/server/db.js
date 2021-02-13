@@ -22,10 +22,7 @@ let dbData = {
             collection.remove().then(() => {
 
             });
-            let InsettList = data.map((item) => {
-                return {name: item[1], age: item[2],tag:item[3],address:item[4],key:item[0]};
-            })
-            collection.insertMany(InsettList).then(() => {
+            collection.insertMany(data).then(() => {
                 callback && callback('学生插入成功');
                 db.close();
             })
@@ -61,8 +58,11 @@ let dbData = {
     },
     // 添加题库
     uploadExercise: function(name, data,callback){
+        let before_q = {qid:data.qid};
+        console.log(before_q)
         mongoose.connect(database_name, (err, db) => {
             let collection = db.collection(name);
+            collection.deleteOne(before_q);
             collection.insertOne(data).then(() => {
                 callback && callback();
                 db.close();
@@ -70,17 +70,26 @@ let dbData = {
         });
         
     },
-    // 删除学生信息(Excel上传)
+    // 删除题库信息(Excel上传)
     deleteExercise: function(name, data,callback){
         mongoose.connect(database_name, (err, db) => {
             let collection = db.collection(name);
-            console.log(data)
             collection.deleteOne(data).then(() => {
                 callback && callback('题目删除成功');
                 db.close();
             });
         });
-    }
+    },
+    // 删除全部题库信息(Excel上传)
+    deleteAllExercise: function(name,callback){
+        mongoose.connect(database_name, (err, db) => {
+            let collection = db.collection(name);
+            collection.remove().then(() => {
+                callback && callback('题目删除成功');
+                db.close();
+            });
+        });
+    },
 }
 
 module.exports = dbData;

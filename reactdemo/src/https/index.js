@@ -7,6 +7,7 @@ let api_map = {
     uploadExercise:'http://localhost:3001/uploadExercise',
     getExerciseList:'http://localhost:3001/getExerciseList',
     deleteExercise:'http://localhost:3001/deleteExercise',
+    deleteAllExercise:'http://localhost:3001/deleteAllExercise',
 }
 
 let ApiGetFun = (api,params = {}) => {

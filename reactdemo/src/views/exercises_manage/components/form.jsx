@@ -29,15 +29,15 @@ import {
       let UploadPromise = upload_list.img.map((item) => {
         const formData = new FormData();
         formData.append(item.name, item);
-        let params = {
-          'descript': values.descript,
-          'rate': values.rate,
-          'student': values.student,
-          'type': values.type,
-        }
-        for(let key in params) {
-          formData.append(key, params[key]);
-        }
+        // let params = {
+        //   'descript': values.descript,
+        //   'rate': values.rate,
+        //   'student': values.student,
+        //   'type': values.type,
+        // }
+        // for(let key in params) {
+        //   formData.append(key, params[key]);
+        // }
         return ApiPostFun(api_map.uploadExercise,formData);
       })
       Promise.all(UploadPromise).then((result) => {
@@ -63,16 +63,16 @@ import {
         }}
       >
         <Form.Item label="题库配置">
-          <span className="ant-form-text">请选择以下配置</span>
+          <span className="ant-form-text">请选择题目图片</span>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
         label="学生姓名"
         name="student"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
         <Input />
-      </Form.Item>
-        <Form.Item
+      </Form.Item> */}
+        {/* <Form.Item
           name="type"
           label="题目类型"
           hasFeedback
@@ -83,18 +83,18 @@ import {
             <Option value="2">填空题</Option>
             <Option value="3">大题</Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item name="rate" label="题目难度">
+        {/* <Form.Item name="rate" label="题目难度">
           <Rate />
-        </Form.Item>
-        <Form.Item
+        </Form.Item> */}
+        {/* <Form.Item
         name="descript"
         label="题目描述"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
         <Input />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item
         name="img"
         label="题目上传"

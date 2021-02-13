@@ -44,19 +44,21 @@ export default () => {
             </Space>
            <Table dataSource={student_list}>
             <Column title="姓名" dataIndex="name" key="name" />
-            <Column title="年龄" dataIndex="age" key="age" /> 
+            {/* <Column title="年龄" dataIndex="age" key="age" />  */}
             {/* <Column title="Address" dataIndex="address" key="address" /> */}
             <Column
-            title="标签"
-            dataIndex="tag"
-            key="tag"
-            render={tag => (
+            title="错题题号"
+            dataIndex="wrongQs"
+            key="wrongQs"
+            render={wrongQs => (
                 <>
-                    <Tag color="blue" key={tag}>
-                    {tag}
+                  {wrongQs.map(wrongQ => (
+                    <Tag color="blue" key={wrongQ}>
+                      {wrongQ}
                     </Tag>
+                  ))}
                 </>
-            )}
+              )}
             />
             <Column
             title="Action"
@@ -64,12 +66,12 @@ export default () => {
             width={'200px'}
             render={(text, record) => (
                 <Space align={'start'}>
-                    <a onClick={(_) => changeInfo(record)}>修改信息</a>
+                    <a onClick={(_) => changeInfo(record)}>删除学生</a>
                     {/* <a>错题库</a> */}
                     <a onClick={(_) => getPaper(record)}>生成试卷</a>
                 </Space>
             )}
-            />
+            /> /******-87777777777777777777777777777777777777777777777777777777777777777////7 */
            </Table>
         </div>
     )

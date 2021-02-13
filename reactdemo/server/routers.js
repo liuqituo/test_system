@@ -21,7 +21,29 @@ let routerFns =  {
     },
     //批量上传学生信息
     addStudentsUpload(req, res, data,callback) {
-        dbData.addStudents('students', data, function(result){
+        let qids = data[0];
+        qids.shift()
+        let qscores = data[1];
+        qscores.shift();
+        data.shift();
+        data.shift();
+        let studets_score = data;
+        let studets_list = [];
+        studets_list = studets_score.map((item) => {
+            let student = {};
+            student.name = item.shift();
+            student.key = new Date()+Math.random() * 1000 + Math.random() * 1000;
+            let wrongQs = item.map((q_score,index) => {
+                if(q_score<qscores[index]){
+                    return qids[index];
+                }
+            })
+            student.wrongQs = wrongQs.filter((item) => {
+                return item;
+            })
+            return student;
+        })
+        dbData.addStudents('students', studets_list, function(result){
             res.send(result);
             callback && callback();
         })
@@ -43,6 +65,12 @@ let routerFns =  {
     deleteExercise(req, res) {
         let params = {key:req.query.key};
         dbData.deleteExercise('exercises',params ,function(result){
+            res.send(result);
+        })
+    },
+    //删除题目
+    deleteAllExercise(req, res) {
+        dbData.deleteAllExercise('exercises',function(result){
             res.send(result);
         })
     },

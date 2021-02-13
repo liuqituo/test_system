@@ -14,7 +14,7 @@ export default () => {
       useEffect(() => {
         ApiGetFun(api_map.getExerciseList).then((data) => {
             let reset_exercise_list = data.data.filter((item) => {
-                return item.student.includes(search_state);
+                return item.qid.includes(search_state);
             })
             setExerciseList(reset_exercise_list);
           })
@@ -22,22 +22,30 @@ export default () => {
     const onSearch =  (value) => {
         setSearchSeate(value);
     }
-    const changeInfo = (name) => {
+    const deleteInfo = (name) => {
       console.log(name)
       ApiGetFun(api_map.deleteExercise,name).then((data) => {
       })
     }
+    const deleteAllInfo = (name) => {
+        console.log(name)
+        ApiGetFun(api_map.deleteAllExercise,name).then((data) => {
+        })
+      }
     return (
         <div>
             <Space align={'center'}>
+                <Button type="primary" htmlType="submit" onClick={(_) => deleteAllInfo()}>
+                    全部删除
+                </Button>
                 <AddForm/>
                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             </Space>
            <Table dataSource={exercise_list}>
-            <Column title="学生名称" dataIndex="student" key="student" />
-            <Column title="题目类型" dataIndex="type" key="type" /> 
-            <Column title="题目难度" dataIndex="rate" key="rate" /> 
-            <Column
+            <Column title="题号" dataIndex="qid" key="qid" />
+            {/* <Column title="题目类型" dataIndex="type" key="type" /> 
+            <Column title="题目难度" dataIndex="rate" key="rate" />  */}
+            {/* <Column
             title="题目描述"
             dataIndex="descript"
             key="descript"
@@ -48,7 +56,7 @@ export default () => {
                 </Tag>
                 </>
             )}
-            />
+            /> */}
             <Column title="题目图片" dataIndex="img" key="img" render=
             {
                 (text, record) => (
@@ -65,7 +73,7 @@ export default () => {
             key="action"
             render={(text, record) => (
                 <Space align={'start'}>
-                <a onClick={(_) => changeInfo(record)}>删除</a>
+                <a onClick={(_) => deleteInfo(record)}>删除</a>
                 {/* <a>错题库</a> */}
                 {/* <a onClick={(_) => getPaper(record)}>生成试卷</a> */}
                 </Space>
