@@ -7,6 +7,9 @@ export default () => {
         action: api_map.addStudentsList,
         onChange(info) {
             console.log(info)
+            if(info.file&& info.file.status === 'done'){
+              window.location.reload();
+            }
         //   if (info.file.status !== 'uploading') {
         //     console.log(info.file, info.fileList);
         //   }
@@ -20,7 +23,7 @@ export default () => {
       return (
           <>
             <Upload {...props}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              <Button icon={<UploadOutlined />}>批量上传</Button>
             </Upload>
           </>
       )

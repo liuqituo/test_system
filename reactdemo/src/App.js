@@ -15,12 +15,13 @@ function App() {
   };
 
   return (
-    <Router>
+    <div>
+      <Router>
       <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       {
           router_map.routes.map((item) => {
             return <Menu.Item key={item.path}>
-              <Link to={item.path}>{item.path_name}</Link>
+              {item.path !== '/paper' && <Link to={item.path}>{item.path_name}</Link>}
             </Menu.Item>
           })
       }
@@ -31,6 +32,7 @@ function App() {
         })
       }
     </Router>
+    </div>
   );
 }
 

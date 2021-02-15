@@ -8,6 +8,7 @@ let api_map = {
     getExerciseList:'http://localhost:3001/getExerciseList',
     deleteExercise:'http://localhost:3001/deleteExercise',
     deleteAllExercise:'http://localhost:3001/deleteAllExercise',
+    getPaperList:'http://localhost:3001/getPaperList',
 }
 
 let ApiGetFun = (api,params = {}) => {

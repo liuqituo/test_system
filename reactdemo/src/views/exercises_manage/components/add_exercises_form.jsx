@@ -18,7 +18,7 @@ const AddForm = () => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button onClick={showModal}>
         上传题库
       </Button>
       <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

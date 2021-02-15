@@ -2,8 +2,12 @@
 import './index.css';
 import React,{useState,useEffect} from 'react';
 import {api_map,ApiGetFun} from '../../https';
-import { Table, Input, Button, Space,Tag,Image  } from 'antd';
+import { Table, Input, Button, Space,Tag,Image,Popover  } from 'antd';
 import AddForm from './components/add_exercises_form';
+import {
+  RestOutlined,
+  FileSearchOutlined
+} from '@ant-design/icons';
 const { Column, ColumnGroup } = Table;
 const { Search } = Input;
 
@@ -25,17 +29,23 @@ export default () => {
     const deleteInfo = (name) => {
       console.log(name)
       ApiGetFun(api_map.deleteExercise,name).then((data) => {
+        setTimeout(() => {
+            window.location.reload();
+          },1000)
       })
     }
     const deleteAllInfo = (name) => {
         console.log(name)
         ApiGetFun(api_map.deleteAllExercise,name).then((data) => {
+            setTimeout(() => {
+                window.location.reload();
+              },1000)
         })
       }
     return (
         <div>
             <Space align={'center'}>
-                <Button type="primary" htmlType="submit" onClick={(_) => deleteAllInfo()}>
+                <Button htmlType="submit" onClick={(_) => deleteAllInfo()}>
                     全部删除
                 </Button>
                 <AddForm/>
@@ -62,7 +72,7 @@ export default () => {
                 (text, record) => (
                     <Image.PreviewGroup>
                     <Image
-                      width={30}
+                      width={500}
                       src={record.img}
                     />
                   </Image.PreviewGroup>
@@ -73,7 +83,10 @@ export default () => {
             key="action"
             render={(text, record) => (
                 <Space align={'start'}>
-                <a onClick={(_) => deleteInfo(record)}>删除</a>
+                  <Popover content={'删除'}>
+                    <a onClick={(_) => deleteInfo(record)}><RestOutlined /></a>
+                  </Popover>,
+                
                 {/* <a>错题库</a> */}
                 {/* <a onClick={(_) => getPaper(record)}>生成试卷</a> */}
                 </Space>

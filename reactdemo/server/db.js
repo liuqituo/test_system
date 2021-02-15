@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID;
 let database_name     = 'mongodb://localhost:27017/test_system';
 let dbData = {
     //获取学生信息
@@ -6,6 +7,20 @@ let dbData = {
         mongoose.connect(database_name, (err, db) => {
             let collection = db.collection(name);
             collection.find().toArray((err, result) => {
+                if(err){
+                    console.log('error:' + err);
+                    return;
+                }
+                callback && callback(result);
+                db.close();
+            })
+        });
+    },
+    //获取学生信息
+    getPaperList: function(name, params,callback){
+        mongoose.connect(database_name, (err, db) => {
+            let collection = db.collection(name);
+            collection.find({"_id":ObjectID(params._id)}).toArray((err, result) => {
                 if(err){
                     console.log('error:' + err);
                     return;
@@ -62,11 +77,11 @@ let dbData = {
         console.log(before_q)
         mongoose.connect(database_name, (err, db) => {
             let collection = db.collection(name);
-            collection.deleteOne(before_q);
-            collection.insertOne(data).then(() => {
-                callback && callback();
-                db.close();
-            })
+            collection.deleteOne(before_q).then(() => {
+                collection.insertOne(data).then(() => {
+                    callback && callback();
+                })
+            });
         });
         
     },

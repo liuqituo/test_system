@@ -95,7 +95,10 @@ app.use('/picture',express.static(__dirname + '/upload'));
  　app.get('/deleteAllExercise', (req, res) => {
     　routerFns.deleteAllExercise(req, res);
     });
-
+//获取学生题目
+　app.get('/getPaperList', (req, res) => {
+    　routerFns.getPaperList(req, res);
+ });
 
 
 

@@ -56,6 +56,14 @@ let routerFns =  {
             callback && callback();
         })
     },
+    //获取单个学生错题列表
+    getPaperList(req, res) {
+        console.log(req.query._id)
+        let params = {_id:req.query._id};
+        dbData.getPaperList('students', params,function(result){
+            res.send(result);
+        })
+    },
     uploadExerciseList(req,res,params) {
         dbData.uploadExercise('exercises',params, function(result){
             res.send(result);
@@ -68,7 +76,7 @@ let routerFns =  {
             res.send(result);
         })
     },
-    //删除题目
+    //删除全部题目
     deleteAllExercise(req, res) {
         dbData.deleteAllExercise('exercises',function(result){
             res.send(result);

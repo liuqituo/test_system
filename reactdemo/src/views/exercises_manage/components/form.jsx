@@ -42,6 +42,9 @@ import {
       })
       Promise.all(UploadPromise).then((result) => {
         console.log(result);
+        setTimeout(() => {
+          window.location.reload();
+        },1000)
       })
           // console.log(fileList);
 

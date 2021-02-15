@@ -2,8 +2,12 @@
 import './index.css';
 import React,{useState,useEffect} from 'react';
 import {api_map,ApiGetFun} from '../../https';
-import { Table, Input, Button, Space,Tag } from 'antd';
+import { Table, Input, Button, Space,Tag,Popover  } from 'antd';
 import Upload from './components/upload';
+import {
+    RestOutlined,
+    FileSearchOutlined
+  } from '@ant-design/icons';
 const { Column, ColumnGroup } = Table;
 const { Search } = Input;
 
@@ -14,11 +18,16 @@ export default () => {
     const onSearch =  (value) => {
         setSearchSeate(value);
     }
-    const getPaper = (name) => {
-        console.log(name)
+    const getPaper = (obj) => {
+        console.log(obj)
+        window.open ('http://localhost:3000/paper?_id='+obj._id)
     }
     const changeInfo = (name) => {
-        ApiGetFun(api_map.deleteStudent,name);
+        ApiGetFun(api_map.deleteStudent,name).then(() => {
+            setTimeout(() => {
+                window.location.reload();
+              },1000)
+        });
     }
 
     // useEffect(() => {
@@ -66,12 +75,16 @@ export default () => {
             width={'200px'}
             render={(text, record) => (
                 <Space align={'start'}>
-                    <a onClick={(_) => changeInfo(record)}>删除学生</a>
+                    <Popover content={'删除'}>
+                        <a onClick={(_) => changeInfo(record)}><RestOutlined /></a>
+                    </Popover>
                     {/* <a>错题库</a> */}
-                    <a onClick={(_) => getPaper(record)}>生成试卷</a>
+                    <Popover content={'生成试卷'}>
+                        <a onClick={(_) => getPaper(record)}><FileSearchOutlined /></a>
+                    </Popover>
                 </Space>
             )}
-            /> /******-87777777777777777777777777777777777777777777777777777777777777777////7 */
+            />
            </Table>
         </div>
     )
