@@ -85,7 +85,7 @@ let dbData = {
         });
         
     },
-    // 删除题库信息(Excel上传)
+    // 删除题库信息
     deleteExercise: function(name, data,callback){
         mongoose.connect(database_name, (err, db) => {
             let collection = db.collection(name);

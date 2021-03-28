@@ -52,21 +52,11 @@ export default () => {
                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             </Space>
            <Table dataSource={exercise_list}>
-            <Column title="题号" dataIndex="qid" key="qid" />
-            {/* <Column title="题目类型" dataIndex="type" key="type" /> 
-            <Column title="题目难度" dataIndex="rate" key="rate" />  */}
-            {/* <Column
-            title="题目描述"
-            dataIndex="descript"
-            key="descript"
-            render={descript => (
-                <>
-                <Tag color="blue" key={descript}>
-                    {descript}
-                </Tag>
-                </>
-            )}
-            /> */}
+            <Column title="题号" dataIndex="qid" key="qid" sorter={{
+                compare: (a, b) => { 
+                  return a.qid.localeCompare(b.qid, 'zh-CN', { numeric: true })
+                },
+              }}/>
             <Column title="题目图片" dataIndex="img" key="img" render=
             {
                 (text, record) => (
