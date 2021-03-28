@@ -74,7 +74,6 @@ let dbData = {
     // 添加题库
     uploadExercise: function(name, data,callback){
         let before_q = {qid:data.qid};
-        console.log(before_q)
         mongoose.connect(database_name, (err, db) => {
             let collection = db.collection(name);
             collection.deleteOne(before_q).then(() => {

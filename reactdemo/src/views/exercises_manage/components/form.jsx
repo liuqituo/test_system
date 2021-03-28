@@ -18,7 +18,7 @@ import {
   };
   
   let initialValues = {
-    paper_count:'A'
+    paper_count:localStorage.getItem('paper_count') || 'A'
   }
   const Demo = () => {
     const [files,setFiles] = useState([]);
@@ -28,19 +28,19 @@ import {
     const onFinish = (values) => {
       let {paper_count} = values;
       localStorage.setItem('paper_count',paper_count);
-      // let upload_list = {...values,...{img:files}};
-      // console.log('Received values of form: ', {...values,...{upload:files}});
-      // let UploadPromise = upload_list.img.map((item) => {
-      //   const formData = new FormData();
-      //   formData.append(item.name, item);
-      //   return ApiPostFun(api_map.uploadExercise,formData);
-      // })
-      // Promise.all(UploadPromise).then((result) => {
-      //   console.log(result);
-      //   setTimeout(() => {
-      //     window.location.reload();
-      //   },1000)
-      // })
+      let upload_list = {...values,...{img:files}};
+      console.log('Received values of form: ', {...values,...{upload:files}});
+      let UploadPromise = upload_list.img.map((item) => {
+        const formData = new FormData();
+        formData.append(item.name, item);
+        return ApiPostFun(api_map.uploadExercise,formData);
+      })
+      Promise.all(UploadPromise).then((result) => {
+        console.log(result);
+        setTimeout(() => {
+          window.location.reload();
+        },1000)
+      })
 
     };
   

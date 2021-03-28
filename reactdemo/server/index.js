@@ -59,29 +59,26 @@ app.use('/picture',express.static(__dirname + '/upload'));
 
  //题库图片上传
  app.post('/uploadExercise', upload.any(), (req, res) => {
-    // 　routerFns.addStudentsUpload(req, res);
-    // console.log(req.files[0]);  // 上传的文件信息
-    // console.log(req.files[0]);  // 上传的文件信息
-    console.log(req.body);  // 上传的文件信息
-    let params = req.body;
-    var des_file = "./upload/" + req.files[0].originalname;
-    fs.readFile( req.files[0].path, function (err, data) {
-        fs.writeFile(des_file, data, function (err) {
-            if( err ){
-                console.log( err );
-            }else{
-                response = {
-                    message:'File uploaded successfully',
-                    filename:req.files[0].originalname
-                };
-                params.img = `http://localhost:3001/picture/${req.files[0].originalname}`;
-                params.key = new Date()+Math.random() * 1000 + Math.random() * 1000;
-                params.qid = req.files[0].originalname.split('.')[0];
-                routerFns.uploadExerciseList(req, res,params);
-                res.end( JSON.stringify( response ) );
-            }
+        console.log(req.body);  // 上传的文件信息
+        let params = req.body;
+        var des_file = "./upload/" + req.files[0].originalname;
+        fs.readFile( req.files[0].path, function (err, data) {
+            fs.writeFile(des_file, data, function (err) {
+                if( err ){
+                    console.log( err );
+                }else{
+                    response = {
+                        message:'File uploaded successfully',
+                        filename:req.files[0].originalname
+                    };
+                    params.img = `http://localhost:3001/picture/${req.files[0].originalname}`;
+                    params.key = new Date()+Math.random() * 1000 + Math.random() * 1000;
+                    params.qid = req.files[0].originalname.split('.')[0];
+                    routerFns.uploadExerciseList(req, res,params);
+                    res.end( JSON.stringify( response ) );
+                }
+            });
         });
-    });
  });
 //获取题库
  　app.get('/getExerciseList', (req, res) => {
@@ -93,9 +90,39 @@ app.use('/picture',express.static(__dirname + '/upload'));
     });
  //删除全部题目
  　app.get('/deleteAllExercise', (req, res) => {
+    //  清空文件夹   
+    function rmdir(dir) {
+        let arr = [dir]
+        let current = null
+        let index = 0
+     
+        while(current = arr[index++]) {
+            // 读取当前文件，并做一个判断，文件目录分别处理
+            let stat = fs.statSync(current)
+            //如果文件是目录
+            if (stat.isDirectory()) {
+                //读取当前目录，拿到所有文件
+                let files = fs.readdirSync(current)
+                // 将文件添加到文件池
+                arr = [...arr, ...files.map(file => path.join(current, file))]
+            }
+        }
+        //遍历删除文件
+        for (var i = arr.length - 1; i >= 0; i--) {
+            // 读取当前文件，并做一个判断，文件目录分别处理
+            let stat = fs.statSync(arr[i])
+            // 目录和文件的删除方法不同
+            if (stat.isDirectory()) {
+                fs.rmdirSync(arr[i])
+            } else {
+                fs.unlinkSync(arr[i])
+            }
+        }
+    }
+     
     　routerFns.deleteAllExercise(req, res);
     });
-//获取学生题目
+//获取学生题目      
 　app.get('/getPaperList', (req, res) => {
     　routerFns.getPaperList(req, res);
  });
